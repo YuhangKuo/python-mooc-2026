@@ -1,0 +1,550 @@
+可以，這份我會整理成**適合直接放進你 GitHub MOOC 筆記庫**的版本，重點放在 Part 2 的觀念，而不是逐題抄答案。
+
+# Python Programming MOOC — Part 2 筆記
+
+## 1. Part 2 核心主題
+
+Part 2 主要開始學習：
+
+* `while` 迴圈
+* `break`
+* 條件判斷
+* 計數器與累加器
+* 狀態變數
+* `if / elif / else`
+* 巢狀條件
+* `and / or`
+* 透過迴圈持續處理輸入
+* 從題目敘述拆解程式邏輯
+
+---
+
+# 2. `while` 迴圈
+
+`while` 用來讓程式重複執行某段程式碼。
+
+```python
+while condition:
+    # repeated code
+```
+
+例如：
+
+```python
+number = 1
+
+while number <= 5:
+    print(number)
+    number += 1
+```
+
+輸出：
+
+```text
+1
+2
+3
+4
+5
+```
+
+---
+
+# 3. `while True`
+
+當不知道要重複幾次時，可以使用：
+
+```python
+while True:
+    ...
+```
+
+然後利用 `break` 決定什麼時候停止。
+
+```python
+while True:
+    number = int(input("Number: "))
+
+    if number == 0:
+        break
+```
+
+可以理解成：
+
+```text
+一直做
+ ↓
+取得輸入
+ ↓
+符合停止條件？
+ ├─ 是 → break
+ └─ 否 → 繼續
+```
+
+---
+
+# 4. `break`
+
+`break` 會立即離開目前的迴圈。
+
+```python
+while True:
+    word = input("Word: ")
+
+    if word == "end":
+        break
+```
+
+常見用途：
+
+* 使用特殊值結束輸入
+* 找到目標後停止搜尋
+* 條件成立後停止重複執行
+
+---
+
+# 5. 計數器（Counter）
+
+如果需要知道某件事情發生幾次，可以使用變數計數。
+
+```python
+count = 0
+
+while True:
+    number = int(input("Number: "))
+
+    if number == 0:
+        break
+
+    count += 1
+```
+
+每次有效輸入：
+
+```python
+count += 1
+```
+
+等同於：
+
+```python
+count = count + 1
+```
+
+---
+
+# 6. 累加器（Accumulator）
+
+除了計數，也可以用變數保存累積結果。
+
+```python
+total = 0
+
+while True:
+    number = int(input("Number: "))
+
+    if number == 0:
+        break
+
+    total += number
+```
+
+`total` 會保存目前所有數字的總和。
+
+---
+
+# 7. 狀態變數
+
+迴圈經常需要記住「前一次發生了什麼」。
+
+例如：
+
+```python
+previous = ""
+
+while True:
+    word = input("Please type in a word: ")
+
+    if word == "end" or word == previous:
+        break
+
+    previous = word
+```
+
+這裡：
+
+```python
+previous
+```
+
+就是一個狀態變數。
+
+它保存上一輪的輸入，讓下一輪可以比較。
+
+例如：
+
+```text
+apple
+ ↓
+previous = "apple"
+
+banana
+ ↓
+previous = "banana"
+
+banana
+ ↓
+目前輸入 == previous
+ ↓
+break
+```
+
+---
+
+# 8. `if / elif / else`
+
+基本結構：
+
+```python
+if condition:
+    ...
+elif another_condition:
+    ...
+else:
+    ...
+```
+
+例如：
+
+```python
+if number > 0:
+    print("Positive")
+elif number < 0:
+    print("Negative")
+else:
+    print("Zero")
+```
+
+注意：
+
+* `if`：第一個條件
+* `elif`：其他可能條件
+* `else`：以上條件都不成立
+
+---
+
+# 9. 巢狀 `if`
+
+一個 `if` 裡面可以再放另一個 `if`。
+
+例如閏年：
+
+```python
+if year % 100 == 0:
+    if year % 400 == 0:
+        ...
+elif year % 4 == 0:
+    ...
+```
+
+這裡的思考方式是：
+
+> 先處理特殊情況，再處理一般情況。
+
+閏年可以簡單理解成：
+
+* 4 的倍數通常是閏年
+* 100 的倍數是例外
+* 400 的倍數又是例外中的例外
+
+例子：
+
+```text
+2024 → 閏年
+1900 → 不是閏年
+2000 → 閏年
+2023 → 不是閏年
+```
+
+---
+
+# 10. `and` / `or`
+
+可以把多個條件組合起來。
+
+### `and`
+
+兩個條件都必須成立：
+
+```python
+if age >= 18 and has_id:
+    ...
+```
+
+### `or`
+
+只要其中一個成立：
+
+```python
+if word == "end" or word == previous:
+    break
+```
+
+這個例子很重要：
+
+原本可以寫成：
+
+```python
+if word == "end":
+    break
+elif word == previous:
+    break
+```
+
+因為兩個條件最後都 `break`，可以合併成：
+
+```python
+if word == "end" or word == previous:
+    break
+```
+
+---
+
+# 11. 不需要為每件事情建立變數
+
+最後一題的官解是一個很好的例子。
+
+可以記錄：
+
+```python
+numbers = 0
+positives = 0
+```
+
+然後負數數量不需要另外記錄：
+
+```python
+negative = numbers - positives
+```
+
+因為有效輸入只有：
+
+```text
+正數 + 負數 = 總數
+```
+
+所以：
+
+```text
+負數 = 總數 - 正數
+```
+
+這是一個很重要的程式設計習慣：
+
+> **不要保存可以從現有資料直接推導出來的狀態。**
+
+---
+
+# 12. Part 2 綜合範例
+
+下面的程式把 Part 2 的多個概念結合起來：
+
+```python
+count = 0
+total = 0
+positives = 0
+
+while True:
+    number = int(input("Number: "))
+
+    if number == 0:
+        break
+
+    count += 1
+    total += number
+
+    if number > 0:
+        positives += 1
+
+print("Numbers typed in:", count)
+print("The sum of the numbers is:", total)
+print("The mean of the numbers is:", total / count)
+print("Positive numbers:", positives)
+print("Negative numbers:", count - positives)
+```
+
+這裡同時使用：
+
+* `while True`
+* `break`
+* `if`
+* 計數器
+* 累加器
+* 狀態變數
+* `+=`
+* 條件判斷
+* 由已知資料推導結果
+
+---
+
+# 13. Part 2 最重要的思考模式
+
+## 模式 1：持續輸入直到特殊值
+
+```python
+while True:
+    value = input()
+
+    if value == "end":
+        break
+
+    ...
+```
+
+---
+
+## 模式 2：計數
+
+```python
+count = 0
+
+while True:
+    ...
+
+    if ...:
+        break
+
+    count += 1
+```
+
+---
+
+## 模式 3：累加
+
+```python
+total = 0
+
+while True:
+    ...
+
+    if ...:
+        break
+
+    total += value
+```
+
+---
+
+## 模式 4：記住上一輪
+
+```python
+previous = ""
+
+while True:
+    current = input()
+
+    if current == previous:
+        break
+
+    previous = current
+```
+
+---
+
+## 模式 5：先處理例外
+
+例如閏年：
+
+```text
+一般規則
+↓
+例外
+↓
+例外中的例外
+```
+
+不要一看到複雜條件就急著寫成一大串 `and / or`。
+
+先用白話把情況分清楚，再寫程式。
+
+---
+
+# 14. Part 2 學習反思
+
+Part 2 最大的進步不是記住某一道題的答案，而是開始理解：
+
+> **程式需要保存哪些狀態，以及什麼時候應該更新這些狀態。**
+
+尤其是：
+
+```python
+count
+total
+previous
+```
+
+這三種變數代表非常常見的程式設計模式。
+
+另外，寫完程式後可以多問自己一次：
+
+> 「這裡是不是可以更簡單？」
+
+例如：
+
+```python
+if word == "end":
+    break
+elif word == previous:
+    break
+```
+
+可以簡化為：
+
+```python
+if word == "end" or word == previous:
+    break
+```
+
+但**先寫對，再考慮簡化**。
+
+---
+
+# 15. Part 2 最重要的學習策略
+
+不要以「寫出跟官解完全一樣的程式」為目標。
+
+推薦流程：
+
+```text
+自己理解題目
+      ↓
+自己嘗試
+      ↓
+執行程式
+      ↓
+測試不同情況
+      ↓
+Debug
+      ↓
+通過測試
+      ↓
+看官解
+      ↓
+比較自己的寫法與官解
+      ↓
+找出更簡潔或更好的思路
+```
+
+自己的正確解法**不要刪掉**。
+
+官解的價值在於：
+
+> **比較不同的思考方式，而不是取代自己的思考。**
+
+---
+
+# Part 2 一句話總結
+
+> **Part 2 開始讓 Python 程式不只是「執行一次」，而是能透過迴圈持續取得資料、保存狀態、更新狀態，並根據條件決定何時停止。**
+
+這份可以直接存成例如 `PART2.md`。
