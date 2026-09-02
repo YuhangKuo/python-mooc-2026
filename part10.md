@@ -1,6 +1,4 @@
-可以。這次直接給你 **PART 10 完整筆記，Markdown 格式**，你可以直接複製另存成 `PART10.md`。
 
-````markdown
 # Python MOOC Part 10 筆記
 
 ## 1. Class Hierarchies（類別階層）
